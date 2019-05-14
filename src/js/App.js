@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Day from "./Day";
+import Header from "./layout/Header";
 
 class App extends React.Component {
-  // constructor(props) {
-  //     super(props);
-  // }
   render() {
     return (
       <div>
-        <h1>App</h1>
+        <Header />
+        <Day />
       </div>
     );
   }
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
