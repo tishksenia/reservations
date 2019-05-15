@@ -1,0 +1,31 @@
+.time-table {
+  display: flex;
+  height: 1200px;
+  justify-content: space-between;
+  font-family: "Playfair Display", serif;
+}
+.times,
+.table {
+  height: 100%;
+}
+.times {
+  width: 20%;
+  flex-direction: column;
+  justify-content: flex-end;
+  //align-content: flex-end;
+  font-family: "Montserrat", sans-serif;
+}
+.times__item {
+  display: flex;
+  height: 50px;
+}
+.table {
+  width: 80%;
+  position: relative;
+}
+.timestamp {
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background-color: red;
+}
