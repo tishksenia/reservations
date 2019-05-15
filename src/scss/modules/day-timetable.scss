@@ -1,15 +1,27 @@
 .time-table {
   display: flex;
-  height: 1200px;
+  position: relative;
+  height: 1440px;
   justify-content: space-between;
   font-family: "Playfair Display", serif;
+  border: 1px dashed gray;
+  padding: 20px;
 }
 .times,
 .table {
   height: 100%;
 }
+.ruler {
+  position: absolute;
+  width: 100%;
+  background-color: lightcyan;
+  height: 1px;
+
+  // parent padding is 20px
+  transform: translateX(-20px);
+}
 .times {
-  width: 20%;
+  width: 10%;
   flex-direction: column;
   justify-content: flex-end;
   //align-content: flex-end;
@@ -17,15 +29,20 @@
 }
 .times__item {
   display: flex;
-  height: 50px;
+  height: 60px;
+  //   text-decoration: line-through;
+  //   text-decoration-color: gray;
+  transform: translateY(-8px);
 }
 .table {
-  width: 80%;
+  width: 90%;
   position: relative;
 }
 .timestamp {
   position: absolute;
   height: 2px;
   width: 100%;
-  background-color: red;
+  background-color: coral;
+  // parent padding is 20px
+  transform: translateX(-20px);
 }
