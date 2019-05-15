@@ -1,7 +1,7 @@
 .time-table {
   display: flex;
   position: relative;
-  height: 1440px;
+  //height: 1440px;
   justify-content: space-between;
   font-family: "Playfair Display", serif;
   border: 1px dashed gray;
@@ -14,7 +14,7 @@
 .ruler {
   position: absolute;
   width: 100%;
-  background-color: lightcyan;
+  background-color: lightgrey;
   height: 1px;
 
   // parent padding is 20px
@@ -45,4 +45,47 @@
   background-color: coral;
   // parent padding is 20px
   transform: translateX(-20px);
+  z-index: 10;
+}
+.reservation {
+  position: absolute;
+  width: 100%;
+  border: 1px solid gray;
+  outline: 0;
+  color: #333;
+  //color: #ffffff;
+  font-size: 0.9em;
+  font-weight: bold;
+  overflow: hidden;
+  font-family: "Montserrat", sans-serif;
+}
+.reservation--green {
+  background-color: #e5d352;
+}
+.reservation--lime {
+  background-color: #d9e76c;
+}
+.reservation--blue {
+  background-color: #537d8d;
+  color: #ffffff;
+}
+.reservation--darkpurple {
+  background-color: #482c3d;
+  color: #ffffff;
+}
+.reservation__title {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.patient-name,
+.doctor-name {
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.reservation__note {
+  font-size: 0.7em;
 }

@@ -1,5 +1,5 @@
 body {
-  background-color: lightcoral;
+  background-color: #482c3d;
 }
 // header
 header.page-header {
@@ -41,20 +41,22 @@ ul.nav {
   margin: 0 auto;
   background-color: #fff;
   margin-top: 80px;
+  margin-bottom: 80px;
   padding: 60px;
   border-radius: 20px;
 }
 
 .page-heading {
-  font-family: "Playfair Display", serif;
+  font-family: "Montserrat", sans-serif;
   margin-bottom: 10px;
   font-size: 1.8em;
   width: 100%;
   padding: 10px 2px;
-  //font-weight: bold;
+  letter-spacing: 0.1em;
+  font-weight: bold;
 }
 .current-time {
-  font-family: "Playfair Display", serif;
+  font-family: "Montserrat", sans-serif;
   margin-bottom: 40px;
   font-size: 1.4em;
 }

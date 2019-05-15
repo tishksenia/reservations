@@ -1,7 +1,11 @@
 import React from "react";
+import Reservation from "./Reservation";
 
 class Day extends React.Component {
-  state = { times: [], currentTime: "", timestampStyle: "" };
+  state = {
+    times: [],
+    currentTime: ""
+  };
   componentDidMount() {
     this.setState({
       currentTime: this.getCurrentTime(),
@@ -11,7 +15,9 @@ class Day extends React.Component {
   }
   getTimesArray() {
     var times = [];
-    for (var i = 0; i <= 23; i++) {
+    var start_hour = +this.props.start.split(":")[0];
+    var end_hour = +this.props.end.split(":")[0];
+    for (var i = start_hour; i < end_hour; i++) {
       times.push(i + ":00");
     }
     return times;
@@ -32,26 +38,48 @@ class Day extends React.Component {
     return mm + "/" + dd + "/" + yyyy;
   }
   getTimestampStyle() {
-    // will always be HH:MM
+    // HH:MM
+    var start_time_array = this.props.start.split(":");
+    var end_time_array = this.props.start.split(":");
+    var start_hour = +start_time_array[0];
+    // var start_minute = +start_time_array[1];
+
     const block_height = 60;
 
     // top-padding of the timestamp parent
     const top_padding = 20;
     var time_array = this.state.currentTime.split(":");
-    var hours = time_array[0];
-    var mins = time_array[1];
-    var top = +hours * +block_height + +mins + top_padding;
+
+    var hours = +time_array[0];
+    var mins = +time_array[1];
+    var top = (hours - start_hour) * block_height + mins + top_padding;
     var styles = {
       top: top + "px"
     };
+    if (hours > +end_time_array[0] || hours < +start_time_array[0]) {
+      styles.display = "none";
+    }
     return styles;
   }
   tick() {
     this.setState({
       currentTime: this.getCurrentTime(),
-      times: this.getTimesArray(),
-      timestampStyle: this.getTimestampStyle()
+      times: this.getTimesArray()
     });
+  }
+  addReservation(start, end, patient, doctor, color, note) {
+    return (
+      <Reservation
+        start={start}
+        end={end}
+        patientName={patient}
+        doctorName={doctor}
+        color={color}
+        note={note}
+        dayStarts={this.props.start}
+        dayEnds={this.props.end}
+      />
+    );
   }
 
   render() {
@@ -63,7 +91,7 @@ class Day extends React.Component {
           <div className="timestamp" style={this.getTimestampStyle()} />
           <div className="times">
             {this.state.times.map(value => (
-              <div>
+              <div key={value}>
                 <div className="ruler" />
                 <p className="times__item" key={value}>
                   {value}
@@ -71,7 +99,23 @@ class Day extends React.Component {
               </div>
             ))}
           </div>
-          <div className="table" />
+          <div className="table">
+            {/* <Reservation
+              start="6:00"
+              end="18:00"
+              color="lightgreen"
+              patientName="Someones Name"
+              doctorName="Dr. Vasya"
+              note="something important about the reservation"
+            /> */}
+            {this.addReservation(
+              "9:10",
+              "17:00",
+              "Patient Name",
+              "Doctor Name",
+              "lime"
+            )}
+          </div>
         </div>
       </div>
     );

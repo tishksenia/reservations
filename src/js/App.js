@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <Day />
+        <Day start="9:00" end="20:30" />
       </div>
     );
   }
