@@ -1,5 +1,6 @@
 import React from "react";
 import Reservation from "./Reservation";
+import AddReservationForm from "./AddReservationForm";
 
 class Day extends React.Component {
   state = {
@@ -57,7 +58,7 @@ class Day extends React.Component {
       top: top + "px"
     };
     if (hours > +end_time_array[0] || hours < +start_time_array[0]) {
-      styles.display = "none";
+      //styles.display = "none";
     }
     return styles;
   }
@@ -87,6 +88,7 @@ class Day extends React.Component {
       <div className="container">
         <h1 className="page-heading">{`Today is ${this.getDate()}`}</h1>
         <p className="current-time">{this.state.currentTime}</p>
+        <AddReservationForm> </AddReservationForm>
         <div className="time-table">
           <div className="timestamp" style={this.getTimestampStyle()} />
           <div className="times">
