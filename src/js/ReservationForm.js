@@ -4,9 +4,11 @@ class ReservationForm extends React.Component {
   state = {
     patientName: "",
     doctorName: "",
-    from: "",
-    to: "",
-    date: ""
+    from: "02:00",
+    to: "03:00",
+    date: "",
+    note: "",
+    color: ""
   };
   handlePatientNameChange = event => {
     this.setState({ patientName: event.target.value });
@@ -23,7 +25,13 @@ class ReservationForm extends React.Component {
   handleDateChange = event => {
     this.setState({ date: event.target.value });
   };
-  handleSend = event => {};
+  handleNoteChange = event => {
+    this.setState({ note: event.target.value });
+  };
+  handleColorChange = event => {
+    this.setState({ color: event.target.value });
+  };
+
   render() {
     return (
       <form action="#" className="add-reservation-form__form">
@@ -34,6 +42,7 @@ class ReservationForm extends React.Component {
               onChange={this.handlePatientNameChange}
               type="text"
               className="text-input names-fieldset__patient-input"
+              value={this.state.patientName}
             />
           </label>
           <label className="text-input-label names-fieldset__doctor-label">
@@ -42,6 +51,7 @@ class ReservationForm extends React.Component {
               onChange={this.handleDoctorNameChange}
               type="text"
               className="text-input names-fieldset__doctor-input"
+              value={this.state.doctorName}
             />
           </label>
         </fieldset>
@@ -53,6 +63,7 @@ class ReservationForm extends React.Component {
               onChange={this.handleFromTimeChange}
               type="time"
               className="time-input times-fieldset__from-input"
+              value={this.state.from}
             />
           </label>
           <label className="time-input-label times-fieldset__to-label">
@@ -61,6 +72,7 @@ class ReservationForm extends React.Component {
               onChange={this.handleToTimeChange}
               type="time"
               className="time-input times-fieldset__to-input"
+              value={this.state.to}
             />
           </label>
         </fieldset>
@@ -71,11 +83,50 @@ class ReservationForm extends React.Component {
               onChange={this.handleDateChange}
               type="date"
               className="date-input date-fieldset__date-input"
+              value={this.state.date}
             />
           </label>
         </fieldset>
+        <fieldset className="add-reservation-form__note-fieldset add-reservation-form__fieldset">
+          <label className="textarea-input-label note-fieldset__note-label">
+            Additional info:
+            <input
+              onChange={this.handleNoteChange}
+              type="textfield"
+              className="date-input date-fieldset__date-input"
+              value={this.state.note}
+            />
+          </label>
+        </fieldset>
+        <fieldset className="add-reservation-form__color-fieldset add-reservation-form__fieldset">
+          <div onChange={this.handleColorChange}>
+            <input type="radio" id="yellow" value="yellow" name="color" />
+            <label htmlFor="yellow">Yellow</label>
+
+            <input
+              type="radio"
+              id="darkpurple"
+              value="darkpurple"
+              name="color"
+            />
+            <label htmlFor="darkpurple">Dark Purple</label>
+
+            <input type="radio" name="color" id="blue" value="blue" />
+            <label htmlFor="blue">Blue</label>
+
+            <input type="radio" id="lime" value="lime" name="color" />
+            <label htmlFor="lime">Lime</label>
+          </div>
+        </fieldset>
         <button
-          onClick={this.handleSend}
+          onClick={this.props.sendHandler(
+            this.state.from,
+            this.state.to,
+            this.state.patientName,
+            this.state.doctorName,
+            this.state.note,
+            this.state.color
+          )}
           type="submit"
           className="add-reservation-form__send"
         >

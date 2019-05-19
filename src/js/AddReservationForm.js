@@ -11,6 +11,9 @@ class AddReservationForm extends React.Component {
   handleCancelClick = e => {
     this.setState({ showForm: false });
   };
+  hideForm() {
+    this.setState({ showForm: false });
+  }
   render() {
     return (
       <div className="add-reservation-form">
@@ -28,7 +31,9 @@ class AddReservationForm extends React.Component {
             -
           </button>
         ) : null}
-        {this.state.showForm ? <ReservationForm /> : null}
+        {this.state.showForm ? (
+          <ReservationForm sendHandler={this.props.sendHandler} />
+        ) : null}
       </div>
     );
   }

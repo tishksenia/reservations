@@ -5,14 +5,18 @@ import AddReservationForm from "./AddReservationForm";
 class Day extends React.Component {
   state = {
     times: [],
-    currentTime: ""
+    currentTime: "",
+    reservationsIds: [],
+    reservations: []
   };
   componentDidMount() {
     this.setState({
       currentTime: this.getCurrentTime(),
-      times: this.getTimesArray()
+      times: this.getTimesArray(),
+      reservations: []
     });
     this.intervalID = setInterval(() => this.tick(), 60000);
+    this.AddReservationForm = React.createRef();
   }
   getTimesArray() {
     var times = [];
@@ -68,7 +72,7 @@ class Day extends React.Component {
       times: this.getTimesArray()
     });
   }
-  addReservation(start, end, patient, doctor, color, note) {
+  addReservation(start, end, patient, doctor, note, color, id) {
     return (
       <Reservation
         start={start}
@@ -79,16 +83,71 @@ class Day extends React.Component {
         note={note}
         dayStarts={this.props.start}
         dayEnds={this.props.end}
+        key={this.props.id}
       />
     );
   }
+  handleAddReservationSend = (
+    start,
+    end,
+    patient,
+    doctor,
+    note,
+    color
+  ) => event => {
+    //if the reservation is unique was not really checked here
+    //assuming that form closes and reset to it's defaults when button was pressed
 
+    event.preventDefault();
+    var id = this.state.reservationsIds.length + 1;
+    var res = this.state.reservationsIds;
+    res.push(id);
+    //if()
+    var reservs = this.state.reservations;
+    reservs.push({ start, end, patient, doctor, note, color });
+    this.setState({ reservationsIds: res, reservations: reservs });
+    //return this.addReservation(start, end, patient, doctor);
+    this.AddReservationForm.current.hideForm();
+  };
+  renderReservations() {
+    var reservations = this.state.reservations;
+    var elements = [];
+    var id = 0;
+    for (var i = 0; i < reservations.length; i++) {
+      id = this.state.reservationsIds[i];
+      elements.push(
+        this.addReservation(
+          reservations[i].start,
+          reservations[i].end,
+          reservations[i].patient,
+          reservations[i].doctor,
+          reservations[i].note,
+          reservations[i].color,
+          id
+        )
+      );
+    }
+    return elements;
+    // return reservations.map(reservation => {
+    //   this.addReservation(
+    //     reservation.start,
+    //     reservation.end,
+    //     reservation.patient,
+    //     reservation.doctor
+    //   );
+    // });
+  }
   render() {
     return (
       <div className="container">
         <h1 className="page-heading">{`Today is ${this.getDate()}`}</h1>
         <p className="current-time">{this.state.currentTime}</p>
-        <AddReservationForm> </AddReservationForm>
+        <AddReservationForm
+          sendHandler={this.handleAddReservationSend}
+          ref={this.AddReservationForm}
+        >
+          {" "}
+        </AddReservationForm>
         <div className="time-table">
           <div className="timestamp" style={this.getTimestampStyle()} />
           <div className="times">
@@ -110,13 +169,14 @@ class Day extends React.Component {
               doctorName="Dr. Vasya"
               note="something important about the reservation"
             /> */}
-            {this.addReservation(
+            {this.renderReservations()}
+            {/* {this.addReservation(
               "9:10",
               "17:00",
               "Patient Name",
               "Doctor Name",
               "lime"
-            )}
+            )} */}
           </div>
         </div>
       </div>
