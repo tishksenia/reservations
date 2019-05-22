@@ -25943,11 +25943,11 @@ function (_React$Component) {
     return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ReservationForm)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
       patientName: "",
       doctorName: "",
-      from: "02:00",
-      to: "03:00",
+      from: "",
+      to: "",
       date: "",
       note: "",
-      color: ""
+      color: "blue"
     }, _this.handlePatientNameChange = function (event) {
       _this.setState({
         patientName: event.target.value
@@ -25976,6 +25976,8 @@ function (_React$Component) {
       _this.setState({
         color: event.target.value
       });
+    }, _this.validateForm = function (event) {
+      return false;
     }, _temp));
   }
 
@@ -26059,7 +26061,8 @@ function (_React$Component) {
         type: "radio",
         name: "color",
         id: "blue",
-        value: "blue"
+        value: "blue",
+        defaultChecked: true
       }), _react.default.createElement("label", {
         htmlFor: "blue"
       }, "Blue"), _react.default.createElement("input", {
@@ -26070,7 +26073,7 @@ function (_React$Component) {
       }), _react.default.createElement("label", {
         htmlFor: "lime"
       }, "Lime"))), _react.default.createElement("button", {
-        onClick: this.props.sendHandler(this.state.from, this.state.to, this.state.patientName, this.state.doctorName, this.state.note, this.state.color),
+        onClick: this.validateForm ? this.props.sendHandler(this.state.from, this.state.to, this.state.patientName, this.state.doctorName, this.state.note, this.state.color) : "",
         type: "submit",
         className: "add-reservation-form__send"
       }, "Add Reservation"));
@@ -26238,9 +26241,8 @@ function (_React$Component) {
         //assuming that form closes and reset to it's defaults when button was pressed
         event.preventDefault();
         var id = _this.state.reservationsIds.length + 1;
-        var res = _this.state.reservationsIds;
-        res.push(id); //if()
-
+        var res_ids = _this.state.reservationsIds;
+        res_ids.push(id);
         var reservs = _this.state.reservations;
         reservs.push({
           start: start,
@@ -26252,10 +26254,9 @@ function (_React$Component) {
         });
 
         _this.setState({
-          reservationsIds: res,
+          reservationsIds: res_ids,
           reservations: reservs
-        }); //return this.addReservation(start, end, patient, doctor);
-
+        });
 
         _this.AddReservationForm.current.hideForm();
       };
@@ -26328,9 +26329,10 @@ function (_React$Component) {
       var top = (hours - start_hour) * block_height + mins + top_padding;
       var styles = {
         top: top + "px"
-      };
+      }; // hide timestamp if work day is already over or didn't start yet
 
-      if (hours > +end_time_array[0] || hours < +start_time_array[0]) {//styles.display = "none";
+      if (+end_time_array[0] != 0 && (hours > +end_time_array[0] || hours < +start_time_array[0])) {
+        styles.display = "none";
       }
 
       return styles;
@@ -26355,7 +26357,7 @@ function (_React$Component) {
         note: note,
         dayStarts: this.props.start,
         dayEnds: this.props.end,
-        key: this.props.id
+        key: id
       });
     }
   }, {
@@ -26366,18 +26368,11 @@ function (_React$Component) {
       var id = 0;
 
       for (var i = 0; i < reservations.length; i++) {
-        id = this.state.reservationsIds[i];
+        id = +this.state.reservationsIds[i];
         elements.push(this.addReservation(reservations[i].start, reservations[i].end, reservations[i].patient, reservations[i].doctor, reservations[i].note, reservations[i].color, id));
       }
 
-      return elements; // return reservations.map(reservation => {
-      //   this.addReservation(
-      //     reservation.start,
-      //     reservation.end,
-      //     reservation.patient,
-      //     reservation.doctor
-      //   );
-      // });
+      return elements;
     }
   }, {
     key: "render",
@@ -26686,7 +26681,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50705" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56385" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

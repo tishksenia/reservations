@@ -61,8 +61,12 @@ class Day extends React.Component {
     var styles = {
       top: top + "px"
     };
-    if (hours > +end_time_array[0] || hours < +start_time_array[0]) {
-      //styles.display = "none";
+    // hide timestamp if work day is already over or didn't start yet
+    if (
+      +end_time_array[0] != 0 &&
+      (hours > +end_time_array[0] || hours < +start_time_array[0])
+    ) {
+      styles.display = "none";
     }
     return styles;
   }
@@ -83,7 +87,7 @@ class Day extends React.Component {
         note={note}
         dayStarts={this.props.start}
         dayEnds={this.props.end}
-        key={this.props.id}
+        key={id}
       />
     );
   }
@@ -97,16 +101,13 @@ class Day extends React.Component {
   ) => event => {
     //if the reservation is unique was not really checked here
     //assuming that form closes and reset to it's defaults when button was pressed
-
     event.preventDefault();
     var id = this.state.reservationsIds.length + 1;
-    var res = this.state.reservationsIds;
-    res.push(id);
-    //if()
+    var res_ids = this.state.reservationsIds;
+    res_ids.push(id);
     var reservs = this.state.reservations;
     reservs.push({ start, end, patient, doctor, note, color });
-    this.setState({ reservationsIds: res, reservations: reservs });
-    //return this.addReservation(start, end, patient, doctor);
+    this.setState({ reservationsIds: res_ids, reservations: reservs });
     this.AddReservationForm.current.hideForm();
   };
   renderReservations() {
@@ -114,7 +115,7 @@ class Day extends React.Component {
     var elements = [];
     var id = 0;
     for (var i = 0; i < reservations.length; i++) {
-      id = this.state.reservationsIds[i];
+      id = +this.state.reservationsIds[i];
       elements.push(
         this.addReservation(
           reservations[i].start,
@@ -128,14 +129,6 @@ class Day extends React.Component {
       );
     }
     return elements;
-    // return reservations.map(reservation => {
-    //   this.addReservation(
-    //     reservation.start,
-    //     reservation.end,
-    //     reservation.patient,
-    //     reservation.doctor
-    //   );
-    // });
   }
   render() {
     return (
@@ -160,24 +153,7 @@ class Day extends React.Component {
               </div>
             ))}
           </div>
-          <div className="table">
-            {/* <Reservation
-              start="6:00"
-              end="18:00"
-              color="lightgreen"
-              patientName="Someones Name"
-              doctorName="Dr. Vasya"
-              note="something important about the reservation"
-            /> */}
-            {this.renderReservations()}
-            {/* {this.addReservation(
-              "9:10",
-              "17:00",
-              "Patient Name",
-              "Doctor Name",
-              "lime"
-            )} */}
-          </div>
+          <div className="table">{this.renderReservations()}</div>
         </div>
       </div>
     );

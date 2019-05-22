@@ -4,11 +4,11 @@ class ReservationForm extends React.Component {
   state = {
     patientName: "",
     doctorName: "",
-    from: "02:00",
-    to: "03:00",
+    from: "",
+    to: "",
     date: "",
     note: "",
-    color: ""
+    color: "blue"
   };
   handlePatientNameChange = event => {
     this.setState({ patientName: event.target.value });
@@ -31,7 +31,6 @@ class ReservationForm extends React.Component {
   handleColorChange = event => {
     this.setState({ color: event.target.value });
   };
-
   render() {
     return (
       <form action="#" className="add-reservation-form__form">
@@ -111,7 +110,13 @@ class ReservationForm extends React.Component {
             />
             <label htmlFor="darkpurple">Dark Purple</label>
 
-            <input type="radio" name="color" id="blue" value="blue" />
+            <input
+              type="radio"
+              name="color"
+              id="blue"
+              value="blue"
+              defaultChecked
+            />
             <label htmlFor="blue">Blue</label>
 
             <input type="radio" id="lime" value="lime" name="color" />
