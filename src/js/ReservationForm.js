@@ -1,4 +1,5 @@
 import React from "react";
+import FormErrors from "./FormErrors";
 
 class ReservationForm extends React.Component {
   state = {
@@ -8,16 +9,84 @@ class ReservationForm extends React.Component {
     to: "",
     date: "",
     note: "",
-    color: "blue"
+    color: "blue",
+    formErrors: { patientName: "", doctorName: "", from: "", to: "", date: "" },
+    patientNameValid: false,
+    doctorNameValid: false,
+    fromValid: false,
+    toValid: false,
+    dateValid: false
   };
   handleInputChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      this.validateField(name, value);
+    });
   };
+  validateField(fieldName, value) {
+    var fieldValidationErrors = this.state.formErrors;
+    var patientNameValid = this.state.patientNameValid;
+    var doctorNameValid = this.state.doctorNameValid;
+    var fromValid = this.state.fromValid;
+    var toValid = this.state.toValid;
+    var dateValid = this.state.dateValid;
+    switch (fieldName) {
+      case "patientName":
+        patientNameValid = value != "";
+        fieldValidationErrors.patientName = patientNameValid ? "" : "is empty";
+        break;
+      case "doctorName":
+        doctorNameValid = value != "";
+        fieldValidationErrors.doctorName = doctorNameValid ? "" : "is empty";
+        break;
+      case "from":
+        fromValid = value != "";
+        fieldValidationErrors.from = fromValid ? "" : "is empty";
+        break;
+      case "to":
+        toValid = value != "";
+        fieldValidationErrors.to = toValid ? "" : "is empty";
+        break;
+      case "date":
+        dateValid = value != "";
+        fieldValidationErrors.date = dateValid ? "" : "is empty";
+        break;
+    }
+    this.setState(
+      {
+        formErrors: fieldValidationErrors,
+        patientNameValid,
+        doctorNameValid,
+        toValid,
+        fromValid,
+        dateValid
+      },
+      this.validateForm
+    );
+  }
+  validateForm() {
+    this.setState({
+      formValid:
+        this.state.patientNameValid &&
+        this.state.doctorNameValid &&
+        this.state.toValid &&
+        this.state.fromValid &&
+        this.state.dateValid
+    });
+  }
+  // validateTimeField() {
+  //   var time_array = value.split(":");
+  //   var mins = +value.split(":")[1];
+  //   if (!Number.isInteger(mins)) {
+  //     time_array[1] = "00";
+  //   }
+  //   value = time_array.join(":");
+  // }
   render() {
     return (
       <form action="#" className="add-reservation-form__form">
+        <FormErrors formErrors={this.state.formErrors} />
         <fieldset className="add-reservation-form__names-fieldset add-reservation-form__fieldset">
           <label className="text-input-label names-fieldset__patient-label">
             Patient:
@@ -124,6 +193,7 @@ class ReservationForm extends React.Component {
           )}
           type="submit"
           className="add-reservation-form__send"
+          disabled={!this.state.formValid}
         >
           Add Reservation
         </button>
