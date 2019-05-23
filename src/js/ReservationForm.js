@@ -10,26 +10,10 @@ class ReservationForm extends React.Component {
     note: "",
     color: "blue"
   };
-  handlePatientNameChange = event => {
-    this.setState({ patientName: event.target.value });
-  };
-  handleDoctorNameChange = event => {
-    this.setState({ doctorName: event.target.value });
-  };
-  handleFromTimeChange = event => {
-    this.setState({ from: event.target.value });
-  };
-  handleToTimeChange = event => {
-    this.setState({ to: event.target.value });
-  };
-  handleDateChange = event => {
-    this.setState({ date: event.target.value });
-  };
-  handleNoteChange = event => {
-    this.setState({ note: event.target.value });
-  };
-  handleColorChange = event => {
-    this.setState({ color: event.target.value });
+  handleInputChange = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+    this.setState({ [name]: value });
   };
   render() {
     return (
@@ -38,19 +22,21 @@ class ReservationForm extends React.Component {
           <label className="text-input-label names-fieldset__patient-label">
             Patient:
             <input
-              onChange={this.handlePatientNameChange}
+              onChange={this.handleInputChange}
               type="text"
               className="text-input names-fieldset__patient-input"
               value={this.state.patientName}
+              name="patientName"
             />
           </label>
           <label className="text-input-label names-fieldset__doctor-label">
             Doctor:
             <input
-              onChange={this.handleDoctorNameChange}
+              onChange={this.handleInputChange}
               type="text"
               className="text-input names-fieldset__doctor-input"
               value={this.state.doctorName}
+              name="doctorName"
             />
           </label>
         </fieldset>
@@ -59,19 +45,21 @@ class ReservationForm extends React.Component {
           <label className="time-input-label times-fieldset__from-label">
             From:
             <input
-              onChange={this.handleFromTimeChange}
+              onChange={this.handleInputChange}
               type="time"
               className="time-input times-fieldset__from-input"
               value={this.state.from}
+              name="from"
             />
           </label>
           <label className="time-input-label times-fieldset__to-label">
             To:
             <input
-              onChange={this.handleToTimeChange}
+              onChange={this.handleInputChange}
               type="time"
               className="time-input times-fieldset__to-input"
               value={this.state.to}
+              name="to"
             />
           </label>
         </fieldset>
@@ -79,10 +67,11 @@ class ReservationForm extends React.Component {
           <label className="date-input-label date-fieldset__date-label">
             Date:
             <input
-              onChange={this.handleDateChange}
+              onChange={this.handleInputChange}
               type="date"
               className="date-input date-fieldset__date-input"
               value={this.state.date}
+              name="date"
             />
           </label>
         </fieldset>
@@ -90,15 +79,16 @@ class ReservationForm extends React.Component {
           <label className="textarea-input-label note-fieldset__note-label">
             Additional info:
             <input
-              onChange={this.handleNoteChange}
+              onChange={this.handleInputChange}
               type="textfield"
               className="date-input date-fieldset__date-input"
               value={this.state.note}
+              name="note"
             />
           </label>
         </fieldset>
         <fieldset className="add-reservation-form__color-fieldset add-reservation-form__fieldset">
-          <div onChange={this.handleColorChange}>
+          <div onChange={this.handleInputChange}>
             <input type="radio" id="yellow" value="yellow" name="color" />
             <label htmlFor="yellow">Yellow</label>
 
