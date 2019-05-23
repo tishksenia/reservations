@@ -25892,7 +25892,7 @@ function (_React$Component) {
 
 var _default = Reservation;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"js/ReservationForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"js/FormErrors.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25904,7 +25904,40 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var FormErrors = function FormErrors(_ref) {
+  var formErrors = _ref.formErrors;
+  return _react.default.createElement("div", {
+    className: "formErrors"
+  }, Object.keys(formErrors).map(function (fieldName, i) {
+    if (formErrors[fieldName].length > 0) {
+      return _react.default.createElement("p", {
+        key: i
+      }, fieldName, " ", formErrors[fieldName]);
+    } else {
+      return "";
+    }
+  }));
+};
+
+var _default = FormErrors;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"js/ReservationForm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _FormErrors = _interopRequireDefault(require("./FormErrors"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -25947,62 +25980,116 @@ function (_React$Component) {
       to: "",
       date: "",
       note: "",
-      color: "blue"
-    }, _this.handlePatientNameChange = function (event) {
-      _this.setState({
-        patientName: event.target.value
+      color: "blue",
+      formErrors: {
+        patientName: "",
+        doctorName: "",
+        from: "",
+        to: "",
+        date: ""
+      },
+      patientNameValid: false,
+      doctorNameValid: false,
+      fromValid: false,
+      toValid: false,
+      dateValid: false
+    }, _this.handleInputChange = function (event) {
+      var name = event.target.name;
+      var value = event.target.value;
+
+      _this.setState(_defineProperty({}, name, value), function () {
+        _this.validateField(name, value);
       });
-    }, _this.handleDoctorNameChange = function (event) {
-      _this.setState({
-        doctorName: event.target.value
-      });
-    }, _this.handleFromTimeChange = function (event) {
-      _this.setState({
-        from: event.target.value
-      });
-    }, _this.handleToTimeChange = function (event) {
-      _this.setState({
-        to: event.target.value
-      });
-    }, _this.handleDateChange = function (event) {
-      _this.setState({
-        date: event.target.value
-      });
-    }, _this.handleNoteChange = function (event) {
-      _this.setState({
-        note: event.target.value
-      });
-    }, _this.handleColorChange = function (event) {
-      _this.setState({
-        color: event.target.value
-      });
-    }, _this.validateForm = function (event) {
-      return false;
     }, _temp));
   }
 
   _createClass(ReservationForm, [{
+    key: "validateField",
+    value: function validateField(fieldName, value) {
+      var fieldValidationErrors = this.state.formErrors;
+      var patientNameValid = this.state.patientNameValid;
+      var doctorNameValid = this.state.doctorNameValid;
+      var fromValid = this.state.fromValid;
+      var toValid = this.state.toValid;
+      var dateValid = this.state.dateValid;
+
+      switch (fieldName) {
+        case "patientName":
+          patientNameValid = value == "" ? false : true;
+          fieldValidationErrors.patientName = patientNameValid ? "" : "is empty";
+          break;
+
+        case "doctorName":
+          doctorNameValid = value == "" ? false : true;
+          fieldValidationErrors.doctorName = doctorNameValid ? "" : "is empty";
+          break;
+
+        case "from":
+          fromValid = value == "" ? false : true;
+          fieldValidationErrors.from = fromValid ? "" : "is empty";
+          break;
+
+        case "to":
+          toValid = value == "" ? false : true;
+          fieldValidationErrors.to = toValid ? "" : "is empty";
+          break;
+
+        case "date":
+          dateValid = value == "" ? false : true;
+          fieldValidationErrors.date = dateValid ? "" : "is empty";
+          break;
+      }
+
+      this.setState({
+        formErrors: fieldValidationErrors,
+        patientNameValid: patientNameValid,
+        doctorNameValid: doctorNameValid,
+        toValid: toValid,
+        fromValid: fromValid,
+        dateValid: dateValid
+      }, this.validateForm);
+    }
+  }, {
+    key: "validateForm",
+    value: function validateForm() {
+      this.setState({
+        formValid: this.state.patientNameValid && this.state.doctorNameValid && this.state.toValid && this.state.fromValid && this.state.dateValid
+      });
+    } // validateTimeField() {
+    //   var time_array = value.split(":");
+    //   var mins = +value.split(":")[1];
+    //   if (!Number.isInteger(mins)) {
+    //     time_array[1] = "00";
+    //   }
+    //   value = time_array.join(":");
+    // }
+
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("form", {
         action: "#",
         className: "add-reservation-form__form"
-      }, _react.default.createElement("fieldset", {
+      }, _react.default.createElement(_FormErrors.default, {
+        formErrors: this.state.formErrors
+      }), _react.default.createElement("fieldset", {
         className: "add-reservation-form__names-fieldset add-reservation-form__fieldset"
       }, _react.default.createElement("label", {
         className: "text-input-label names-fieldset__patient-label"
       }, "Patient:", _react.default.createElement("input", {
-        onChange: this.handlePatientNameChange,
+        onChange: this.handleInputChange,
         type: "text",
         className: "text-input names-fieldset__patient-input",
-        value: this.state.patientName
+        value: this.state.patientName,
+        name: "patientName"
       })), _react.default.createElement("label", {
         className: "text-input-label names-fieldset__doctor-label"
       }, "Doctor:", _react.default.createElement("input", {
-        onChange: this.handleDoctorNameChange,
+        onChange: this.handleInputChange,
         type: "text",
         className: "text-input names-fieldset__doctor-input",
-        value: this.state.doctorName
+        value: this.state.doctorName,
+        name: "doctorName"
       }))), _react.default.createElement("fieldset", {
         className: "add-reservation-form__times-fieldset add-reservation-form__fieldset"
       }, _react.default.createElement("legend", {
@@ -26010,39 +26097,43 @@ function (_React$Component) {
       }, "Time"), _react.default.createElement("label", {
         className: "time-input-label times-fieldset__from-label"
       }, "From:", _react.default.createElement("input", {
-        onChange: this.handleFromTimeChange,
+        onChange: this.handleInputChange,
         type: "time",
         className: "time-input times-fieldset__from-input",
-        value: this.state.from
+        value: this.state.from,
+        name: "from"
       })), _react.default.createElement("label", {
         className: "time-input-label times-fieldset__to-label"
       }, "To:", _react.default.createElement("input", {
-        onChange: this.handleToTimeChange,
+        onChange: this.handleInputChange,
         type: "time",
         className: "time-input times-fieldset__to-input",
-        value: this.state.to
+        value: this.state.to,
+        name: "to"
       }))), _react.default.createElement("fieldset", {
         className: "add-reservation-form__date-fieldset add-reservation-form__fieldset"
       }, _react.default.createElement("label", {
         className: "date-input-label date-fieldset__date-label"
       }, "Date:", _react.default.createElement("input", {
-        onChange: this.handleDateChange,
+        onChange: this.handleInputChange,
         type: "date",
         className: "date-input date-fieldset__date-input",
-        value: this.state.date
+        value: this.state.date,
+        name: "date"
       }))), _react.default.createElement("fieldset", {
         className: "add-reservation-form__note-fieldset add-reservation-form__fieldset"
       }, _react.default.createElement("label", {
         className: "textarea-input-label note-fieldset__note-label"
       }, "Additional info:", _react.default.createElement("input", {
-        onChange: this.handleNoteChange,
+        onChange: this.handleInputChange,
         type: "textfield",
         className: "date-input date-fieldset__date-input",
-        value: this.state.note
+        value: this.state.note,
+        name: "note"
       }))), _react.default.createElement("fieldset", {
         className: "add-reservation-form__color-fieldset add-reservation-form__fieldset"
       }, _react.default.createElement("div", {
-        onChange: this.handleColorChange
+        onChange: this.handleInputChange
       }, _react.default.createElement("input", {
         type: "radio",
         id: "yellow",
@@ -26073,9 +26164,10 @@ function (_React$Component) {
       }), _react.default.createElement("label", {
         htmlFor: "lime"
       }, "Lime"))), _react.default.createElement("button", {
-        onClick: this.validateForm ? this.props.sendHandler(this.state.from, this.state.to, this.state.patientName, this.state.doctorName, this.state.note, this.state.color) : "",
+        onClick: this.props.sendHandler(this.state.from, this.state.to, this.state.patientName, this.state.doctorName, this.state.note, this.state.color),
         type: "submit",
-        className: "add-reservation-form__send"
+        className: "add-reservation-form__send",
+        disabled: !this.state.formValid
       }, "Add Reservation"));
     }
   }]);
@@ -26085,7 +26177,7 @@ function (_React$Component) {
 
 var _default = ReservationForm;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"js/AddReservationForm.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./FormErrors":"js/FormErrors.js"}],"js/AddReservationForm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26642,7 +26734,7 @@ function (_React$Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement(_Header.default, null), _react.default.createElement(_Day.default, {
+      return _react.default.createElement("div", null, _react.default.createElement(_Day.default, {
         start: "00:00",
         end: "23:00"
       }));
@@ -26681,7 +26773,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56385" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58376" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
