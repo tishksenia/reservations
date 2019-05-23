@@ -33,23 +33,23 @@ class ReservationForm extends React.Component {
     var dateValid = this.state.dateValid;
     switch (fieldName) {
       case "patientName":
-        patientNameValid = value != "";
+        patientNameValid = value == "" ? false : true;
         fieldValidationErrors.patientName = patientNameValid ? "" : "is empty";
         break;
       case "doctorName":
-        doctorNameValid = value != "";
+        doctorNameValid = value == "" ? false : true;
         fieldValidationErrors.doctorName = doctorNameValid ? "" : "is empty";
         break;
       case "from":
-        fromValid = value != "";
+        fromValid = value == "" ? false : true;
         fieldValidationErrors.from = fromValid ? "" : "is empty";
         break;
       case "to":
-        toValid = value != "";
+        toValid = value == "" ? false : true;
         fieldValidationErrors.to = toValid ? "" : "is empty";
         break;
       case "date":
-        dateValid = value != "";
+        dateValid = value == "" ? false : true;
         fieldValidationErrors.date = dateValid ? "" : "is empty";
         break;
     }
