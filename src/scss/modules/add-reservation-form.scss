@@ -1,56 +1,22 @@
-.add-reservation-form__fieldset {
-  margin: 20px 0;
-}
-
-.text-input-label,
-.time-input-label,
-.date-input-label {
-  margin: 10px 20px;
-  width: 150px;
-  text-align: right;
-}
-.text-input,
-.time-input,
-.date-input {
-  margin-left: 10px;
-  display: flex;
-  align-self: flex-end;
-}
-.add-reservation-form {
+.reservation-form {
   font-family: "PT Sans", sans-serif;
   padding: 20px;
-}
-.times-fieldset__caption {
-  font-size: 1.3em;
-  margin-bottom: 10px;
-}
-.add-reservation-form,
-.add-reservation-form__form {
-  //border: 1px solid red;
-}
-
-.add-reservation-form {
   max-width: 50%;
 }
-.add-reservation-form__names-fieldset {
-  display: flex;
-  justify-content: flex-end;
-  label {
-    display: flex;
-    flex-basis: 150px;
-    text-align: right;
-  }
-  input {
-    display: flex;
-    align-self: flex-end;
-    justify-content: flex-start;
-    width: 100%;
-  }
+fieldset {
+  margin: 40px 0;
 }
-
-.add-reservation-form__send,
-.add-reservation-form__show-form,
-.add-reservation-form__cancel {
+.times-fieldset__caption {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+input[type="text"] {
+  display: block;
+}
+.reservation-form__send,
+.reservation-form__show-form,
+.reservation-form__cancel {
   outline: none;
   margin-right: 10px;
   background: none;
@@ -61,12 +27,13 @@
     border-color: #14a7b7;
   }
 }
-.add-reservation-form__show-form,
-.add-reservation-form__cancel {
+.reservation-form__show-form,
+.reservation-form__cancel {
   border-radius: 50%;
   width: 40px;
   height: 40px;
 }
 
-.add-reservation-form__cancel {
+input[type="text"] {
+  margin-right: 20px;
 }

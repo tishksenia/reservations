@@ -1,5 +1,8 @@
 import React from "react";
 import FormErrors from "./FormErrors";
+import TextField from "@material-ui/core/TextField";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 class ReservationForm extends React.Component {
   state = {
@@ -85,78 +88,77 @@ class ReservationForm extends React.Component {
   // }
   render() {
     return (
-      <form action="#" className="add-reservation-form__form">
+      <form action="#" className="reservation-form__form">
         <FormErrors formErrors={this.state.formErrors} />
-        <fieldset className="add-reservation-form__names-fieldset add-reservation-form__fieldset">
-          <label className="text-input-label names-fieldset__patient-label">
-            Patient:
-            <input
-              onChange={this.handleInputChange}
-              type="text"
-              className="text-input names-fieldset__patient-input"
-              value={this.state.patientName}
-              name="patientName"
-            />
-          </label>
-          <label className="text-input-label names-fieldset__doctor-label">
-            Doctor:
-            <input
-              onChange={this.handleInputChange}
-              type="text"
-              className="text-input names-fieldset__doctor-input"
-              value={this.state.doctorName}
-              name="doctorName"
-            />
-          </label>
+        <fieldset className="reservation-form__names-fieldset reservation-form__fieldset">
+          <TextField
+            label="Patient"
+            value={this.state.patientName}
+            onChange={this.handleInputChange}
+            name="patientName"
+            variant="outlined"
+            margin="dense"
+          />
+          <TextField
+            label="Doctor"
+            value={this.state.doctorName}
+            onChange={this.handleInputChange}
+            name="doctorName"
+            variant="outlined"
+            margin="dense"
+          />
         </fieldset>
-        <fieldset className="add-reservation-form__times-fieldset add-reservation-form__fieldset">
+
+        <fieldset className="reservation-form__times-fieldset reservation-form__fieldset">
           <legend className="times-fieldset__caption">Time</legend>
-          <label className="time-input-label times-fieldset__from-label">
-            From:
-            <input
-              onChange={this.handleInputChange}
-              type="time"
-              className="time-input times-fieldset__from-input"
-              value={this.state.from}
-              name="from"
-            />
-          </label>
-          <label className="time-input-label times-fieldset__to-label">
-            To:
-            <input
-              onChange={this.handleInputChange}
-              type="time"
-              className="time-input times-fieldset__to-input"
-              value={this.state.to}
-              name="to"
-            />
-          </label>
+          <TextField
+            type="time"
+            label="From"
+            onChange={this.handleInputChange}
+            value={this.state.from}
+            name="from"
+            InputLabelProps={{
+              shrink: true
+            }}
+            inputProps={{
+              step: 300 // 5 min
+            }}
+          />
+
+          <TextField
+            type="time"
+            label="To"
+            onChange={this.handleInputChange}
+            value={this.state.to}
+            name="to"
+            InputLabelProps={{
+              shrink: true
+            }}
+            inputProps={{
+              step: 300 // 5 min
+            }}
+          />
         </fieldset>
-        <fieldset className="add-reservation-form__date-fieldset add-reservation-form__fieldset">
-          <label className="date-input-label date-fieldset__date-label">
-            Date:
-            <input
-              onChange={this.handleInputChange}
-              type="date"
-              className="date-input date-fieldset__date-input"
-              value={this.state.date}
-              name="date"
-            />
-          </label>
+        <fieldset className="reservation-form__date-fieldset reservation-form__fieldset">
+          <TextField
+            type="date"
+            label="Date"
+            onChange={this.handleInputChange}
+            value={this.state.date}
+            name="date"
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
         </fieldset>
-        <fieldset className="add-reservation-form__note-fieldset add-reservation-form__fieldset">
-          <label className="textarea-input-label note-fieldset__note-label">
-            Additional info:
-            <input
-              onChange={this.handleInputChange}
-              type="textfield"
-              className="date-input date-fieldset__date-input"
-              value={this.state.note}
-              name="note"
-            />
-          </label>
-        </fieldset>
-        <fieldset className="add-reservation-form__color-fieldset add-reservation-form__fieldset">
+        <TextField
+          label="Additional info"
+          value={this.state.note}
+          onChange={this.handleInputChange}
+          name="note"
+          variant="outlined"
+        />
+        <fieldset className="reservation-form__color-fieldset reservation-form__fieldset">
           <div onChange={this.handleInputChange}>
             <input type="radio" id="yellow" value="yellow" name="color" />
             <label htmlFor="yellow">Yellow</label>
@@ -192,7 +194,7 @@ class ReservationForm extends React.Component {
             this.state.color
           )}
           type="submit"
-          className="add-reservation-form__send"
+          className="reservation-form__send"
           disabled={!this.state.formValid}
         >
           Add Reservation

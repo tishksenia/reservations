@@ -2,7 +2,7 @@ import React from "react";
 import ReservationForm from "./ReservationForm";
 class AddReservationForm extends React.Component {
   state = {
-    form: document.querySelector(".add-reservation-form__form"),
+    form: document.querySelector(".reservation-form__form"),
     showForm: false
   };
   handleShowFormClick = e => {
@@ -16,16 +16,16 @@ class AddReservationForm extends React.Component {
   }
   render() {
     return (
-      <div className="add-reservation-form">
+      <div className="reservation-form">
         <button
-          className="add-reservation-form__show-form"
+          className="reservation-form__show-form"
           onClick={this.handleShowFormClick}
         >
           +
         </button>
         {this.state.showForm ? (
           <button
-            className="add-reservation-form__cancel"
+            className="reservation-form__cancel"
             onClick={this.handleCancelClick}
           >
             -
