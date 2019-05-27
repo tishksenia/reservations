@@ -9,7 +9,7 @@ class Day extends React.Component {
   };
   componentDidMount() {}
 
-  addReservation(start, end, patient, doctor, note, color, id) {
+  addReservation(start, end, patient, doctor, note, color, date, id) {
     return (
       <Reservation
         start={start}
@@ -18,6 +18,7 @@ class Day extends React.Component {
         doctorName={doctor}
         color={color}
         note={note}
+        date={date}
         dayStarts={this.props.start}
         dayEnds={this.props.end}
         key={id}
@@ -38,6 +39,7 @@ class Day extends React.Component {
           reservations[i].doctor,
           reservations[i].note,
           reservations[i].color,
+          reservations[i].date,
           id
         )
       );

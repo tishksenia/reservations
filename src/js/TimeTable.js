@@ -84,7 +84,8 @@ class TimeTable extends React.Component {
     patient,
     doctor,
     note,
-    color
+    color,
+    date
   ) => event => {
     //if the reservation is unique was not really checked here
     //assuming that form closes and reset to it's defaults when button was pressed
@@ -93,7 +94,7 @@ class TimeTable extends React.Component {
     var res_ids = this.state.reservationsIds;
     res_ids.push(id);
     var reservs = this.state.reservations;
-    reservs.push({ start, end, patient, doctor, note, color });
+    reservs.push({ start, end, patient, doctor, note, color, date });
     this.setState({ reservationsIds: res_ids, reservations: reservs });
     this.AddReservationForm.current.hideForm();
   };

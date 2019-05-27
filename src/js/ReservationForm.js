@@ -8,8 +8,9 @@ class ReservationForm extends React.Component {
   state = {
     patientName: "",
     doctorName: "",
-    from: "",
-    to: "",
+    //time default values
+    from: "10:00",
+    to: "12:00",
     date: "",
     note: "",
     color: "blue",
@@ -78,14 +79,6 @@ class ReservationForm extends React.Component {
         this.state.dateValid
     });
   }
-  // validateTimeField() {
-  //   var time_array = value.split(":");
-  //   var mins = +value.split(":")[1];
-  //   if (!Number.isInteger(mins)) {
-  //     time_array[1] = "00";
-  //   }
-  //   value = time_array.join(":");
-  // }
   render() {
     return (
       <form action="#" className="reservation-form__form">
@@ -191,7 +184,8 @@ class ReservationForm extends React.Component {
             this.state.patientName,
             this.state.doctorName,
             this.state.note,
-            this.state.color
+            this.state.color,
+            this.state.date
           )}
           type="submit"
           className="reservation-form__send"
