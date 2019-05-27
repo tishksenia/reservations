@@ -3,10 +3,7 @@ import Reservation from "./Reservation";
 import AddReservationForm from "./AddReservationForm";
 
 class Day extends React.Component {
-  state = {
-    reservationsIds: this.props.resIds,
-    reservations: this.props.res
-  };
+  state = {};
   componentDidMount() {}
 
   addReservation(start, end, patient, doctor, note, color, date, id) {
@@ -26,20 +23,28 @@ class Day extends React.Component {
     );
   }
   renderReservations() {
-    var reservations = this.state.reservations;
+    var days = this.props.days;
+    var date = this.props.date;
+    if (days[date] === undefined) {
+      return "";
+    }
+    var reservs = days[date].reservations;
+    var resIds = days[date].reservationsIds;
+
+    //var reservations = this.state.reservations;
     var elements = [];
     var id = 0;
-    for (var i = 0; i < reservations.length; i++) {
-      id = +this.state.reservationsIds[i];
+    for (var i = 0; i < reservs.length; i++) {
+      id = +resIds[i];
       elements.push(
         this.addReservation(
-          reservations[i].start,
-          reservations[i].end,
-          reservations[i].patient,
-          reservations[i].doctor,
-          reservations[i].note,
-          reservations[i].color,
-          reservations[i].date,
+          reservs[i].start,
+          reservs[i].end,
+          reservs[i].patient,
+          reservs[i].doctor,
+          reservs[i].note,
+          reservs[i].color,
+          reservs[i].date,
           id
         )
       );

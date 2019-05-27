@@ -7,13 +7,18 @@ class TimeTable extends React.Component {
   state = {
     times: [],
     currentTime: "",
-    reservationsIds: [],
-    reservations: []
+    // reservationsIds: [],
+    // reservations: [],
+    days: [],
+    date: "",
+    weeks: [],
+    currentWeek: {}
   };
   componentDidMount() {
     this.setState({
       currentTime: this.getCurrentTime(),
-      times: this.getTimesArray()
+      times: this.getTimesArray(),
+      week: this.getCurrentWeek()
     });
     this.intervalID = setInterval(() => this.tick(), 60000);
 
@@ -36,12 +41,41 @@ class TimeTable extends React.Component {
     //{currentTime: currentTime} -> {currentTime}
     return currentTime;
   }
-  getDate() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-    return mm + "/" + dd + "/" + yyyy;
+  getCurrentWeek() {
+    let week = {};
+    let id = 0;
+
+    let today = new Date();
+    let weekDay = today.getDay();
+    let day = today.getDate();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+
+    //calculation of the last day of month
+    let lastDayOfMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    ).getDate();
+    // 0 is sunday
+    if (weekDay === 0) {
+      week.ends = year + "-" + month + "-" + +day;
+      week.starts = year + "-" + month + "-" + (+day - 1);
+    }
+    //and one is monday
+    else if (weekDay === 1) {
+      week.starts = year + "-" + month + "-" + +day;
+      week.ends = year + "-" + month + "-" + (+day + 6);
+    } else {
+      week.starts = year + "-" + month + "-" + (+day - +weekDay);
+      week.ends = year + "-" + month + "-" + (+day + +weekDay);
+    }
+    //if week ends on day that doesn't belong to current month, set it to the last day of month
+    if (week.ends.split("-")[2] > lastDayOfMonth) {
+      week.ends = week.ends = year + "-" + month + "-" + lastDayOfMonth;
+    }
+    week.id = id;
+    return week;
   }
   getTimestampStyle() {
     // HH:MM
@@ -90,17 +124,44 @@ class TimeTable extends React.Component {
     //if the reservation is unique was not really checked here
     //assuming that form closes and reset to it's defaults when button was pressed
     event.preventDefault();
-    var id = this.state.reservationsIds.length + 1;
-    var res_ids = this.state.reservationsIds;
-    res_ids.push(id);
-    var reservs = this.state.reservations;
-    reservs.push({ start, end, patient, doctor, note, color, date });
-    this.setState({ reservationsIds: res_ids, reservations: reservs });
+    let days = this.state.days;
+    if (days[date] == undefined) {
+      let day = {};
+      day.reservations = [];
+      day.reservationsIds = [];
+      let id = day.reservationsIds.length + 1;
+      day.reservationsIds.push(id);
+      //do I need this "ids" array or am I being dumb?
+      day.reservations.push({ start, end, patient, doctor, note, color, date });
+
+      days[date] = day;
+    } else {
+      let day = this.state.days[date];
+
+      let reservs = this.state.days[date].reservations;
+      let ids = this.state.days[date].reservationsIds;
+      let id = ids.length + 1;
+      ids.push(id);
+      reservs.push({ start, end, patient, doctor, note, color, date });
+      day.reservations = reservs;
+      day.reservationsIds = ids;
+      days[date] = day;
+      //days: day
+    }
+
+    this.setState({ days, date });
     this.AddReservationForm.current.hideForm();
   };
   getDayRef = node => {
     this._dayRef = ReactDOM.findDOMNode();
   };
+  getDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+    return mm + "/" + dd + "/" + yyyy;
+  }
   render() {
     return (
       <div className="container">
@@ -129,6 +190,8 @@ class TimeTable extends React.Component {
             end={this.props.end}
             resIds={this.state.reservationsIds}
             res={this.state.reservations}
+            days={this.state.days}
+            date={this.state.date}
           />
         </div>
       </div>
