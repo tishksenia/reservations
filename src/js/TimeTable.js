@@ -15,7 +15,6 @@ class TimeTable extends React.Component {
     this.setState({
       currentTime: this.getCurrentTime(),
       times: this.getTimesArray(),
-      //week: this.getCurrentWeek()
       weeks: this.setupWeeks(),
       date: this.setupCurrentDate()
     });
@@ -35,9 +34,6 @@ class TimeTable extends React.Component {
   getCurrentTime() {
     var today = new Date();
     var currentTime = today.getHours() + ":" + today.getMinutes();
-    /* + ":" + today.getSeconds()*/
-    //we don't really need seconds
-    //{currentTime: currentTime} -> {currentTime}
     return currentTime;
   }
   calculateLastDayOfMonth() {
@@ -79,7 +75,31 @@ class TimeTable extends React.Component {
     weeks.push(previousWeek, currentWeek, nextWeek);
     return weeks;
   }
-
+  // day, month, year, weekDay -> {start of the week, end of the week}
+  //Given day, month, year, and the week day, produce object with "starts": "YYYY-MM-DD", "ends": "YYYY-MM-DD" - containing start and end of the corresponding week
+  getWeekBonds(day, month, year, weekDay) {
+    let bonds = {};
+    //calculation of the last day of month
+    let lastDayOfMonth = this.calculateLastDayOfMonth();
+    // 0 is sunday
+    if (weekDay === 0) {
+      bonds.ends = year + "-" + month + "-" + +day;
+      bonds.starts = year + "-" + month + "-" + (+day - 1);
+    }
+    //and 1 is monday
+    else if (weekDay === 1) {
+      bonds.starts = year + "-" + month + "-" + +day;
+      bonds.ends = year + "-" + month + "-" + (+day + 6);
+    } else {
+      bonds.starts = year + "-" + month + "-" + (+day - +weekDay);
+      bonds.ends = year + "-" + month + "-" + (+day + +weekDay);
+    }
+    //if week ends on day that doesn't belong to the current month, set it to the last day of month
+    if (bonds.ends.split("-")[2] > lastDayOfMonth) {
+      bonds.ends = bonds.ends = year + "-" + month + "-" + lastDayOfMonth;
+    }
+    return bonds;
+  }
   // Sets up current { week } object, using current date
   // week = { days: [], starts: "yyyy-m-d", ends: "yyyy-m-d"}
   setupCurrentWeek() {
@@ -91,30 +111,15 @@ class TimeTable extends React.Component {
     let day = today.getDate();
     let month = today.getMonth();
     let year = today.getFullYear();
+    let weekBonds = this.getWeekBonds(day, month, year, weekDay);
+    week.starts = weekBonds.starts;
+    week.ends = weekBonds.ends;
 
-    //calculation of the last day of month
-    let lastDayOfMonth = this.calculateLastDayOfMonth();
-    // 0 is sunday
-    if (weekDay === 0) {
-      week.ends = year + "-" + month + "-" + +day;
-      week.starts = year + "-" + month + "-" + (+day - 1);
-    }
-    //and one is monday
-    else if (weekDay === 1) {
-      week.starts = year + "-" + month + "-" + +day;
-      week.ends = year + "-" + month + "-" + (+day + 6);
-    } else {
-      week.starts = year + "-" + month + "-" + (+day - +weekDay);
-      week.ends = year + "-" + month + "-" + (+day + +weekDay);
-    }
-    //if week ends on day that doesn't belong to current month, set it to the last day of month
-    if (week.ends.split("-")[2] > lastDayOfMonth) {
-      week.ends = week.ends = year + "-" + month + "-" + lastDayOfMonth;
-    }
     week.id = id;
     week.days = [];
     return week;
   }
+
   // { week }, position -> { week }
   // Given the current week object and position of nearby week (before or after), generate an empty week object
   // id is 1 for current week, 0 for previous and 2 for the next one
@@ -128,6 +133,7 @@ class TimeTable extends React.Component {
       day = current_week_starts_array[2];
       month = current_week_starts_array[1];
       year = current_week_starts_array[0];
+
       week.ends = `${year}-${month}-${day - 1}`;
       if (day < 9) {
         week.starts = `${year}-${month}-1`;
@@ -167,7 +173,6 @@ class TimeTable extends React.Component {
     var start_time_array = this.props.start.split(":");
     var end_time_array = this.props.start.split(":");
     var start_hour = +start_time_array[0];
-    // var start_minute = +start_time_array[1];
 
     const block_height = 60;
 
@@ -198,7 +203,7 @@ class TimeTable extends React.Component {
   }
 
   // Given string of date "yyyy-m-d", produce the days array
-  // getDaysByDate(date) {}
+  getDaysByDate(date) {}
 
   //Given string of date "yyyy-m-d", produce id of the week it corresponds to
   getIdOfWeekByDate(date) {
@@ -232,7 +237,6 @@ class TimeTable extends React.Component {
       day.reservationsIds = [];
       let id = day.reservationsIds.length + 1;
       day.reservationsIds.push(id);
-      //do I need this "ids" array or am I being dumb?
       day.reservations.push({ start, end, patient, doctor, note, color, date });
 
       days[date] = day;
@@ -247,15 +251,10 @@ class TimeTable extends React.Component {
       day.reservations = reservs;
       day.reservationsIds = ids;
       days[date] = day;
-      //days: day
     }
-
     this.setState({ days, date });
     this.AddReservationForm.current.hideForm();
   };
-  // getDayRef = node => {
-  //   this._dayRef = ReactDOM.findDOMNode();
-  // };
   getDate() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
