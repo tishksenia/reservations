@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint **/*.{js,jsx,ts,tsx}",
-    "start": "parcel index.html --open ",
+    "start": "parcel index.html --open",
     "prebuild": "run-s clean",
     "build": "parcel build index.html --no-source-maps",
     "clean": "rimraf ./dist"
