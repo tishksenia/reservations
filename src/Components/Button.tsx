@@ -14,6 +14,8 @@ const hoverStateCss = {
   },
 };
 
+// TODO: add active prop
+
 const Button = styled.button({
   marginRight: '6px',
   padding: '6px 15px',
