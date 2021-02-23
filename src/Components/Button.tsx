@@ -2,33 +2,41 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 const Button = styled.button({
-  background: 'transparent',
-  border: '1px solid var(--light-gray)',
-  outline: 0,
+  marginRight: '6px',
   padding: '6px 20px',
+  outline: 0,
+  border: '1px solid var(--light-gray)',
+
+  background: 'transparent',
+  borderRadius: '5px',
+
   cursor: 'pointer',
   color: 'var(--light-gray)',
   fontWeight: 'bold',
-  borderRadius: '5px',
-  marginRight: '6px',
+
+  transition: 'all 0.3s',
   ':last-of-type': {
     marginRight: 0,
   },
   ':hover': {
-    background: 'var(--dark-gray)',
     border: '1px solid var(--dark-gray)',
+
+    background: 'var(--dark-gray)',
     color: '#FFFFFF',
+
     transition: 'all 0.9s',
   },
   ':active': {
-    background: 'var(--dark-gray)',
     border: '1px solid var(--dark-gray)',
+
+    background: 'var(--dark-gray)',
     color: '#FFFFFF',
   },
   ':focus': {
+    color: '#FFFFFF',
+    
     background: 'var(--dark-gray)',
     border: '1px solid var(--dark-gray)',
-    color: '#FFFFFF',
   },
 });
 
