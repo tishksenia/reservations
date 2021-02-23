@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import Button from './Button';
-import arrowLeft from '../static/media/icons/arrow-left.svg';
 import styled from '@emotion/styled';
+
+import Button from './Button';
+import { ArrowLeft, ArrowRight } from './Arrows';
 
 const ControlsWrapper = styled.div({
   display: 'flex',
@@ -18,16 +19,10 @@ const Controls: FunctionComponent = () => {
       </div>
       <div>
         <Button>
-          <img src={arrowLeft} width="10" />
+          <ArrowLeft />
         </Button>
         <Button>
-          <img
-            src={arrowLeft}
-            width="10"
-            style={{
-              transform: 'rotate(180deg)',
-            }}
-          />
+          <ArrowRight />
         </Button>
       </div>
     </ControlsWrapper>

@@ -1,9 +1,22 @@
 import styled from '@emotion/styled';
-import React from 'react';
+
+const hoverStateCss = {
+  border: '1px solid var(--dark-gray)',
+
+  background: 'var(--dark-gray)',
+  color: '#FFFFFF',
+
+  transition: 'all 0.9s',
+  svg: {
+    path: {
+      stroke: 'white',
+    },
+  },
+};
 
 const Button = styled.button({
   marginRight: '6px',
-  padding: '6px 20px',
+  padding: '6px 15px',
   outline: 0,
   border: '1px solid var(--light-gray)',
 
@@ -18,26 +31,7 @@ const Button = styled.button({
   ':last-of-type': {
     marginRight: 0,
   },
-  ':hover': {
-    border: '1px solid var(--dark-gray)',
-
-    background: 'var(--dark-gray)',
-    color: '#FFFFFF',
-
-    transition: 'all 0.9s',
-  },
-  ':active': {
-    border: '1px solid var(--dark-gray)',
-
-    background: 'var(--dark-gray)',
-    color: '#FFFFFF',
-  },
-  ':focus': {
-    color: '#FFFFFF',
-    
-    background: 'var(--dark-gray)',
-    border: '1px solid var(--dark-gray)',
-  },
+  ':hover,:active,:focus': hoverStateCss,
 });
 
 export default Button;
