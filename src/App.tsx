@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { css, Global } from '@emotion/react';
 
-import TimeTable from './TimeTable';
+import TimeTable from './Components/TimeTable';
 import AppWrapper from './Components/AppWrapper';
 
 import 'normalize.css';
-import './static/scss/styles.scss';
+import Button from './Components/Button';
 
 const globalStyles = css`
   /* latin */
@@ -33,8 +33,17 @@ const globalStyles = css`
 
   body {
     font-family: Roboto, serif;
-    background: #f1f1f1;
-    color: #242424;
+    background: var(--app-background);
+    color: var(--font-color);
+  }
+`;
+
+const globalVariables = css`
+  html {
+    --font-color: #242424;
+    --app-background: #f1f1f1;
+    --light-gray: #cecece;
+    --dark-gray: #707070;
   }
 `;
 
@@ -43,8 +52,12 @@ class App extends React.Component {
     return (
       <div>
         <Global styles={globalStyles} />
+        <Global styles={globalVariables} />
         <AppWrapper>
           <>
+            <Button>Day</Button>
+            <Button>Month</Button>
+            <Button>Week</Button>
             <TimeTable />
           </>
         </AppWrapper>

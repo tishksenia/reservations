@@ -11,10 +11,10 @@ const Wrapper: FunctionComponent<Props> = ({ className, children }: Props) => {
 };
 
 const AppWrapper = styled(Wrapper)<Props>({
-  padding: '10px',
+  padding: '20px',
   background: 'white',
   width: '70vw',
-  height: 'calc(100vh - 60px)',
+  height: 'calc(100vh - 80px)',
   margin: '20px auto',
   boxShadow: '0px -1px 8px 0px rgba(50, 50, 50, 0.17)',
 });

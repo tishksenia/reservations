@@ -1,14 +1,14 @@
-import React from "react";
-import ReservationForm from "./ReservationForm";
+import React from 'react';
+import ReservationForm from './Wrapper/ReservationForm';
 class AddReservationForm extends React.Component {
   state = {
-    form: document.querySelector(".reservation-form__form"),
-    showForm: false
+    form: document.querySelector('.reservation-form__form'),
+    showForm: false,
   };
-  handleShowFormClick = e => {
+  handleShowFormClick = (e) => {
     this.setState({ showForm: true });
   };
-  handleCancelClick = e => {
+  handleCancelClick = (e) => {
     this.setState({ showForm: false });
   };
   hideForm() {
@@ -19,15 +19,13 @@ class AddReservationForm extends React.Component {
       <div className="reservation-form">
         <button
           className="reservation-form__show-form"
-          onClick={this.handleShowFormClick}
-        >
+          onClick={this.handleShowFormClick}>
           +
         </button>
         {this.state.showForm ? (
           <button
             className="reservation-form__cancel"
-            onClick={this.handleCancelClick}
-          >
+            onClick={this.handleCancelClick}>
             -
           </button>
         ) : null}

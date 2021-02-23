@@ -1,5 +1,5 @@
 import React from "react";
-import FormErrors from "./FormErrors";
+import FormErrors from "./Components/FormErrors";
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
